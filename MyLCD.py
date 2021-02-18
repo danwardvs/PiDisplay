@@ -1,9 +1,20 @@
 from i2c_lcd import I2cLcd
 import time
+import MyButton
 
 lcd = None
+backlight_enabled = True
+
+def toggle_backlight_enabled():
+    global backlight_enabled
+    backlight_enabled = not backlight_enabled
+    if backlight_enabled:
+        lcd.backlight_on()
+    else:
+        lcd.backlight_off()
 
 def setup():
+    global backlight_enabled
     global lcd
     # The PCF8574 has a jumper selectable address: 0x20 - 0x27
     DEFAULT_I2C_ADDR = 0x27
@@ -13,6 +24,21 @@ def setup():
     lcd.putstr("   Welcome to\n     DannyPC")
     time.sleep(1)
     lcd.clear()
+    backlight_enabled = MyButton.is_light_on(16)
+    print("backlight enabled",backlight_enabled)
+    if not backlight_enabled:
+        lcd.backlight_off()
+
+def toggle_backlight(on):
+    global backlight_enabled
+    if backlight_enabled:
+        if on:
+            lcd.backlight_on()
+        else:
+            lcd.backlight_off()
+
+
+
 
 def write(string):
     if lcd is None:
@@ -34,8 +60,8 @@ def flash(off_time,on_time,n):
         print("Error: LCD not initalized")
     else:
         for _ in range(n):
-            lcd.backlight_off()
+            toggle_backlight(False)
             time.sleep(off_time)
-            lcd.backlight_on()
+            toggle_backlight(True)
             time.sleep(on_time)
 

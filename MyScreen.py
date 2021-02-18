@@ -20,9 +20,9 @@ def update():
     global screen_location
     global screen
 
-    if screen_location > len(screen):
+    if screen_location >= len(screen):
         screen_location = 0
-
+    print("len(screen) = "+str(len(screen)) +",screen_location = " +str(screen_location)) 
     line_1 = screen[screen_location]
     line_2 = "" if screen_location==len(screen)-1 else screen[screen_location+1]
     MyLCD.write(line_1 + "\n" + line_2)
