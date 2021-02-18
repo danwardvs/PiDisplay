@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 import yfinance as yf
 
-api_key = "4e0655eb60057ed4fdc6a32898290474"
+api_key = "OpenWeatherMap_API_KEY_HERE"
 
 
 def k_to_c(temp):
